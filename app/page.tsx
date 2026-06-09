@@ -1,188 +1,120 @@
 "use client";
-import Image from "next/image";
-import { motion, useAnimation } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+import SplashScreen from "./components/SplashScreen";
+import Navbar from "./components/Navbar";
+import SectionHeader from "./components/SectionHeader";
+import AboutSection from "./components/AboutSection";
+import EducationSection from "./components/EducationSection";
+import ExperienceSection from "./components/ExperienceSection";
+import SkillsSection from "./components/SkillsSection";
+import ProjectsSection from "./components/ProjectsSection";
+import AchievementsSection from "./components/AchievementsSection";
+import ContactSection from "./components/ContactSection";
+import DefaultSection from "./components/DefaultSection";
+
+const menuItems = [
+  { id: "about", label: "About" },
+  { id: "experience", label: "Experience" },
+  { id: "skills", label: "Skills" },
+  { id: "projects", label: "Projects" },
+  { id: "achievements", label: "Achievements" },
+  { id: "education", label: "Education" },
+  { id: "contact", label: "Contact" },
+];
 
 export default function Home() {
   const [soundEnabled, setSoundEnabled] = useState<boolean | null>(null);
+  const [hasEntered, setHasEntered] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const controls = useAnimation();
-
 
   useEffect(() => {
     audioRef.current = new Audio("/bg-music.mp3");
     audioRef.current.loop = true;
-
     return () => {
       audioRef.current?.pause();
       audioRef.current = null;
     };
   }, []);
 
-  const handleSoundOn = async () => {
-    try {
-      await audioRef.current?.play();
-    } catch (err) {
-      console.log(err);
-    }
-
-    setSoundEnabled(true);
-  };
-
-  const handleSoundOff = () => {
-    setSoundEnabled(false);
-  };
-
-  const handleToggle = () => {
+  const handleToggleSound = async () => {
     const audio = audioRef.current;
     if (!audio) return;
     if (soundEnabled) {
       audio.pause();
       setSoundEnabled(false);
     } else {
-      audio.play().then(() => setSoundEnabled(true)).catch(console.log);
+      try {
+        await audio.play();
+        setSoundEnabled(true);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
-  if (soundEnabled === null) {
-    return (
-      <div
-        className="fixed inset-0 flex flex-col items-center justify-center z-50"
-        style={{
-          background: "linear-gradient(-45deg, #280544, #01080c, #342c47, #470234, #031a35)",
-        }}
-      >
-        {/* Hidden audio tag — preload nothing until user clicks */}
-        {/* <audio ref={audioRef} loop preload="none">
-          <source src="/bg-music.mp3" type="audio/mpeg" />
-        </audio> */}
+  const handleEnter = () => {
+    setHasEntered(true);
+    if (soundEnabled === null) setSoundEnabled(false);
+  };
 
-        <h1 className="text-4xl font-bold text-pink-400 mb-8">✨ Welcome ✨</h1>
-        <p className="text-xl text-gray-300 mb-10">Enable background music?</p>
-        <div className="flex gap-6">
-          <button
-            onClick={handleSoundOn}
-            className="px-8 py-3 bg-pink-500 text-white rounded-full text-lg font-semibold hover:bg-pink-600 transition shadow-lg"
-          >
-            🔊 Sound ON
-          </button>
-          <button
-            onClick={handleSoundOff}
-            className="px-8 py-3 bg-white/20 text-white rounded-full text-lg font-semibold hover:bg-white/30 transition shadow-lg"
-          >
-            🔇 Sound OFF
-          </button>
-        </div>
-      </div>
+  // Rendering the standalone Splash Screen
+  if (!hasEntered) {
+    return (
+      <SplashScreen
+        onEnter={handleEnter}
+        onToggleSound={handleToggleSound}
+        soundEnabled={soundEnabled}
+      />
     );
   }
 
+  // Rendering the Main Single Page Application Content
   return (
-    <main className="animated-bg relative w-screen h-screen overflow-hidden flex items-center justify-center">
-
-      {/* Audio lives here after navigation */}
-      <audio ref={audioRef} loop preload="none">
-        <source src="/bg-music.mp3" type="audio/mpeg" />
-      </audio>
-
-      <button
-        onClick={handleToggle}
-        className="fixed top-5 right-5 z-50 bg-white/20 backdrop-blur px-4 py-2 rounded-full shadow text-xl hover:bg-white/40 transition"
-      >
-        {soundEnabled ? "🔊" : "🔇"}
-      </button>
-
-      {/* <div className="relative z-10 flex items-center justify-center w-[420px] h-[420px]">
-        <Link href="/about"
-          className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-6 bg-white/10 backdrop-blur border border-white/30 px-6 py-2 rounded-full text-white font-bold hover:bg-white/30 transition text-sm tracking-widest shadow"
-        >
-          About
-        </Link>
-        <Link href="/experience"
-          className="absolute top-0 right-1/2 translate-x-1/2 -translate-y-6 bg-white/10 backdrop-blur border border-white/30 px-6 py-2 rounded-full text-white font-bold hover:bg-white/30 transition text-sm tracking-widest shadow"
-        >
-          Experience
-        </Link>
-        <Link href="/projects"
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-10 bg-white/10 backdrop-blur border border-white/30 px-6 py-2 rounded-full text-white font-bold hover:bg-white/30 transition text-sm tracking-widest shadow"
-        >
-          Projects
-        </Link>
-        <Link href="/services"
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-10 bg-white/10 backdrop-blur border border-white/30 px-6 py-2 rounded-full text-white font-bold hover:bg-white/30 transition text-sm tracking-widest shadow"
-        >
-          Services
-        </Link>
-        <Image
-            src="/sticker.png"
-            alt="Cool Girl Sticker"
-            width={220}
-            height={220}
-            className="drop-shadow-2xl"
-            priority
-          />
-      </div> */}
-      <div className="relative w-[500px] h-[500px]">
-
-        {/* Center Image */}
-        <Image
-          src="/sticker.png"
-          alt="Profile"
-          width={250}
-          height={250}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
-
-        {/* Top */}
-        <Link href="/about"
-          className="absolute top-0 left-1/2 -translate-x-1/2">
-          About
-        </Link>
-
-        {/* Top Left */}
-        <Link href="/experience"
-          className="absolute top-[20%] left-[10%]">
-          Experience
-        </Link>
-
-        {/* Top Right */}
-        <Link href="/skills"
-          className="absolute top-[20%] right-[10%]">
-          Skills
-        </Link>
-
-        {/* Middle Left */}
-        <Link href="/projects"
-          className="absolute top-1/2 left-0 -translate-y-1/2">
-          Projects
-        </Link>
-
-        {/* Middle Right */}
-        <Link href="/contact"
-          className="absolute top-1/2 right-0 -translate-y-1/2">
-          Contact
-        </Link>
-
-        {/* Bottom Left */}
-        <Link href="/achievements"
-          className="absolute bottom-[20%] left-[10%]">
-          Achievements
-        </Link>
-
-        {/* Bottom Right */}
-        <Link href="/resume"
-          className="absolute bottom-[20%] right-[10%]">
-          Resume
-        </Link>
-
-        {/* Bottom */}
-        <Link href="/education"
-          className="absolute bottom-0 left-1/2 -translate-x-1/2">
-          Education
-        </Link>
-
+    <div className="relative min-h-screen bg-[#03080c] text-[#F5F2EC] scroll-smooth selection:bg-[#00e5ff]/30">
+      
+      {/* Background Ambience Layer */}
+      <div className="fixed inset-0 w-full h-full z-0 opacity-20 pointer-events-none mix-blend-screen">
+        <video autoPlay loop muted playsInline className="w-full h-full object-cover">
+          <source src="/bg-video.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:32px_32px]" />
       </div>
-    </main>
+
+      <Navbar
+        menuItems={menuItems}
+        onToggleSound={handleToggleSound}
+        soundEnabled={soundEnabled}
+      />
+
+      <main className="relative z-10 max-w-5xl mx-auto px-6 py-12 pt-24 space-y-32">
+        {menuItems.map((item) => (
+          <section
+            key={item.id}
+            id={item.id}
+            className="min-h-[80vh] flex flex-col justify-center scroll-mt-28"
+          >
+            <SectionHeader label={item.label} />
+
+            {item.id === "about" ? (
+              <AboutSection />
+            ) : item.id === "experience" ? (
+              <ExperienceSection />
+            ) : item.id === "skills" ? (
+              <SkillsSection />
+            ) : item.id === "projects" ? (
+              <ProjectsSection />
+            ) : item.id === "achievements" ? (
+              <AchievementsSection />
+            ) : item.id === "education" ? (
+              <EducationSection />
+            ) : item.id === "contact" ? (
+              <ContactSection />
+            ) : (
+              <DefaultSection label={item.label} />
+            )}
+          </section>
+        ))}
+      </main>
+    </div>
   );
 }

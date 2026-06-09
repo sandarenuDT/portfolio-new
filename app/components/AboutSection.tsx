@@ -21,7 +21,7 @@ export default function AboutSection() {
           <div className="relative w-full h-full overflow-hidden bg-[#03080c] rounded-sm">
             <div className="absolute inset-0 bg-gradient-to-t from-[#03080c] via-transparent to-transparent z-10" />
             <Image
-              src="/sticker.png"
+              src="/Image.png"
               alt="Tharuka S. Portrait"
               fill
               className="object-contain opacity-70 filter grayscale brightness-95 contrast-125 group-hover:opacity-100 group-hover:filter-none transition-all duration-300 mix-blend-screen"

@@ -25,8 +25,8 @@ export default function Navbar({ menuItems, onToggleSound, soundEnabled }: Navba
           className="rounded-full border border-[#00e5ff]/40"
         />
         <div>
-          <span className="font-bold text-xs block tracking-wider uppercase text-white">Tharuka S.</span>
-          <span className="text-[9px] font-mono tracking-widest text-[#00e5ff] uppercase block -mt-0.5">DEV // ARCH</span>
+          <span className="font-bold text-xs block tracking-wider uppercase text-white">Tharuka</span>
+          {/* <span className="text-[9px] font-mono tracking-widest text-[#00e5ff] uppercase block -mt-0.5">DEV // ARCH</span> */}
         </div>
       </div>
 

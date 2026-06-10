@@ -35,7 +35,7 @@ export default function ExperienceSection() {
           
           {/* Timeline Node Header Tag */}
           <span className="font-mono text-xs text-[#00e5ff]/60 block mb-1">
-            DEPLOYMENT // {exp.type.toUpperCase()}
+            {exp.type.toUpperCase()}
           </span>
 
           {/* Role and Duration Row */}

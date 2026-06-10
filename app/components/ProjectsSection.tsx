@@ -226,7 +226,7 @@ function ProjectCard({ project }: { project: ProjectItem }) {
               rel="noopener noreferrer"
               className="text-white/40 hover:text-white transition-colors"
             >
-              [ code ]
+              [ GitHub ]
             </a>
           )}
           {project.demo && (

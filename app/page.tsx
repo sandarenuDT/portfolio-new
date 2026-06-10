@@ -86,12 +86,12 @@ export default function Home() {
         soundEnabled={soundEnabled}
       />
 
-      <main className="relative z-10 max-w-5xl mx-auto px-6 py-12 pt-24 space-y-32">
+      <main className="relative z-10 max-w-5xl mx-auto px-6 py-12 pt-24 space-y-16 md:space-y-20">
         {menuItems.map((item) => (
           <section
             key={item.id}
             id={item.id}
-            className="min-h-[80vh] flex flex-col justify-center scroll-mt-28"
+            className="flex flex-col justify-center scroll-mt-28"
           >
             <SectionHeader label={item.label} />
 
@@ -100,7 +100,7 @@ export default function Home() {
             ) : item.id === "experience" ? (
               <ExperienceSection />
             ) : item.id === "skills" ? (
-              <SkillsSection />
+              <SkillsSection /> 
             ) : item.id === "projects" ? (
               <ProjectsSection />
             ) : item.id === "achievements" ? (

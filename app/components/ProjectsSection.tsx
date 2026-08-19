@@ -136,11 +136,29 @@ const projectsData: ProjectItem[] = [
     color: "#0ea5e9",
     image: "/bookfair.jpg",
   },
+   {
+    title: "AI Research Agent (n8n)",
+    period: "June 2026",
+    shortDesc: "Autonomous RAG-based AI agent that orchestrates multi-source lookups and emails structured answers.",
+    fullDesc: "An autonomous workflow agent built in n8n that answers complex questions by intelligently orchestrating lookups across an internal Google Sheets knowledge base, live web search via Tavily, and semantic vector search over PDF documents, delivering structured JSON outputs directly to users via Gmail.",
+    highlights: [
+      "Engineered an autonomous multi-source tool router utilizing Google Gemini for intelligent fallback logic (Knowledge Base → Web Search → Vector Store)",
+      "Implemented Retrieval-Augmented Generation (RAG) using semantic embeddings for document interrogation alongside windowed conversational memory buffers",
+      "Configured structured data outputs enforcing standard JSON schemas (answer, source, confidence) mapped to an automated Gmail delivery node"
+    ],
+    tech: ["n8n", "Google Gemini", "Tavily API", "Google Sheets API", "Gmail OAuth", "Vector Store", "RAG", "Docker"],
+    github: "https://github.com/sandarenuDT/Research-Agent-n8n",
+    category: "AI / Automation",
+    color: "#ff6c37", // Matches the native n8n orange brand color
+    image: "/n8n.png",
+  },
+
 ];
 
 // ── Separate card component so each has its own imgError state ──
 function ProjectCard({ project }: { project: ProjectItem }) {
   const [imgError, setImgError] = useState(false);
+  const [expandedTech, setExpandedTech] = useState(false); 
 
   return (
     <div className="group relative bg-white/[0.01] border border-white/5 rounded-sm overflow-hidden flex flex-col justify-between hover:border-white/15 transition-all duration-300 shadow-xl">
@@ -199,9 +217,44 @@ function ProjectCard({ project }: { project: ProjectItem }) {
             {project.shortDesc}
           </p>
         </div>
+           {/* Core Highlights Section */}
+        <ul className="space-y-1 text-[11px] text-white/50 hidden md:block">
+          {project.highlights.map((highlight, index) => (
+            <li key={index} className="line-clamp-1 flex items-start gap-1.5">
+              <span style={{ color: project.color }} className="select-none">▪</span>
+              {highlight}
+            </li>
+          ))}
+        </ul>
+        {/* Tech badges */}
+<div className="flex flex-wrap items-center gap-1">
+  {/* Show either the first 4 items, or the full array based on the tracking state */}
+  {(expandedTech ? project.tech : project.tech.slice(0, 4)).map((techItem) => (
+    <span
+      key={techItem}
+      className="text-[9px] font-mono px-1.5 py-0.5 rounded-sm bg-white/5 text-white/40 border border-white/5 transition-all duration-200"
+    >
+      {techItem}
+    </span>
+  ))}
+
+  {/* Clickable counter toggle button */}
+  {project.tech.length > 4 && (
+    <button
+      type="button"
+      onClick={() => setExpandedTech(!expandedTech)}
+      className="text-[9px] font-mono px-1.5 py-0.5 rounded-sm bg-white/10 hover:bg-white/20 text-white/60 hover:text-white transition-colors duration-200 cursor-pointer"
+      style={expandedTech ? { color: project.color, borderColor: `${project.color}30` } : {}}
+    >
+      {expandedTech ? "show less ▲" : `+${project.tech.length - 4} more ▼`}
+    </button>
+  )}
+</div>
+
+
 
         {/* Tech badges */}
-        <div className="flex flex-wrap gap-1">
+        {/* <div className="flex flex-wrap gap-1">
           {project.tech.slice(0, 4).map((techItem) => (
             <span
               key={techItem}
@@ -215,7 +268,7 @@ function ProjectCard({ project }: { project: ProjectItem }) {
               +{project.tech.length - 4}
             </span>
           )}
-        </div>
+        </div> */}
 
         {/* Links */}
         <div className="flex items-center gap-4 pt-2 border-t border-white/5 text-[10px] font-mono uppercase tracking-widest">

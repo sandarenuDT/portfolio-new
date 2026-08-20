@@ -24,7 +24,23 @@ const experienceData: ExperienceItem[] = [
       "Delivered a comprehensive Next.js admin portal featuring NextAuth, JWT authentication, TanStack Table, Recharts, and PostgreSQL via Prisma ORM, deployed on Vercel."
     ],
     technologies: ["Laravel", "Livewire", "React", "Next.js", "NextAuth", "JWT", "PostgreSQL", "Prisma ORM", "Redis"]
+  },
+  {
+    role: "Backend Developer",
+    type: "Volunteer Role",
+    company: "Sawiya Foundation",
+    period: "july 2026 — Present",
+    location: "Remote // Sri Lanka",
+    bullets: [
+      "Working as a Backend Developer at Sawiya Foundation, developing RESTful APIs using Java Spring Boot and MySQL.",
+      "Following layered architecture principles with Controller, Service, Repository, and DTO patterns.",
+      "Responsible for implementing business logic, database integration using JPA/Hibernate, API testing with Swagger, and collaborating through Git-based workflows.",
+      "Utilizing Docker for containerization and deployment of the application, ensuring consistency across different environments."
+    ],
+    technologies: ["SpringBoot", "Java", "MySQL", "Docker", "Swagger/Postman", "Git"]
+  
   }
+
 ];
 
 export default function ExperienceSection() {
